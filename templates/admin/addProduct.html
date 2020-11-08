@@ -1,0 +1,285 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+    <style>
+        .dot {
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    </style>
+
+
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title float-left">Add Product</h4>
+
+                            <ol class="breadcrumb float-right">
+                                <a href="/admin/viewProduct">
+                                    <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                        view Product
+                                    </button>
+                                </a>
+                            </ol>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="card-box">
+                            <p class="text-muted font-14 m-b-20">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        {{ message }}
+                                    {% endfor %}
+                                {% endif %}
+                            </p>
+
+                            <form action="/admin/insertProduct" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="userName">code<span class="text-danger">*</span></label>
+                                    <input type="text" name="code" parsley-trigger="change" required
+                                           placeholder="Enter Code" class="form-control" id="userName"
+                                           value="{{ dic.loginUserName }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailAddress">Name<span class="text-danger">*</span></label>
+                                    <input type="text" name="name" parsley-trigger="change" required
+                                           placeholder="Enter name" class="form-control" id="emailAddress"
+                                           value="{{ dic.loginEmail }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobileNumber">Image<span class="text-danger">*</span></label>
+                                    <p><input type="file" accept="image/*" name="image" id="file"
+                                              onchange="loadFile(event)"
+                                              style="display: none;" multiple></p>
+                                    <p><label for="file" style="cursor: pointer;">Upload Image (Click here)</label></p>
+                                    <p><img id="output" style="width: 100%" {% if image %}src="{{ image }}"{% endif %}/>
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobileNumber">Category<span class="text-danger">*</span></label>
+                                    <input type="text" name="category" parsley-trigger="change" required
+                                           placeholder="Enter category" class="form-control" id="mobileNumber"
+                                           value="{{ dic.loginPassword }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName">Subcategory<span class="text-danger">*</span></label>
+                                    <input type="text" name="subcategory" parsley-trigger="change" required
+                                           placeholder="Enter subcategory" class="form-control" id="userName"
+                                           value="{{ dic.loginUserName }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName">Type<span class="text-danger">*</span></label>
+                                    <input type="text" name="type" parsley-trigger="change" required
+                                           placeholder="Enter type" class="form-control" id="userName"
+                                           value="{{ dic.loginUserName }}">
+                                </div>
+                                <div class="form-group" style="flex: inherit">
+                                    <label for="userName">Color<span class="text-danger">*</span></label>
+                                    <div style="display: flex">
+                                        <div class="checkbox">
+                                            <input id="#C0392B" type="checkbox" name="color" value="#C0392B">
+                                            <label for="#C0392B" class="dot" style="background-color: #C0392B"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="##E74C3C" type="checkbox" name="color" value="#E74C3C">
+                                            <label for="##E74C3C" class="dot" style="background-color: #E74C3C"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#9B59B6" type="checkbox" name="color" value="#9B59B6">
+                                            <label for="#9B59B6" class="dot" style="background-color: #9B59B6"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#8E44AD" type="checkbox" name="color" value="#8E44AD">
+                                            <label for="#8E44AD" class="dot" style="background-color: #8E44AD"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#2980B9" type="checkbox" name="color" value="#2980B9">
+                                            <label for="#2980B9" class="dot" style="background-color: #2980B9"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#3498DB" type="checkbox" name="color" value="#3498DB">
+                                            <label for="#3498DB" class="dot" style="background-color: #3498DB"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#1ABC9C" type="checkbox" name="color" value="#1ABC9C">
+                                            <label for="#1ABC9C" class="dot" style="background-color: #1ABC9C"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#16A085" type="checkbox" name="color" value="#16A085">
+                                            <label for="#16A085" class="dot" style="background-color: #16A085"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#27AE60" type="checkbox" name="color" value="#27AE60">
+                                            <label for="#27AE60" class="dot" style="background-color: #27AE60"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#2ECC71" type="checkbox" name="color" value="#2ECC71">
+                                            <label for="#2ECC71" class="dot" style="background-color: #2ECC71"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#F1C40F" type="checkbox" name="color" value="#F1C40F">
+                                            <label for="#F1C40F" class="dot" style="background-color: #F1C40F"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#F39C12" type="checkbox" name="color" value="#F39C12">
+                                            <label for="#F39C12" class="dot" style="background-color: #F39C12"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#E67E22" type="checkbox" name="color" value="#E67E22">
+                                            <label for="#E67E22" class="dot" style="background-color: #E67E22"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#D35400" type="checkbox" name="color" value="#D35400">
+                                            <label for="#D35400" class="dot" style="background-color: #D35400"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#ECF0F1 " type="checkbox" name="color" value="#ECF0F1 ">
+                                            <label for="#ECF0F1 " class="dot"
+                                                   style="background-color: #ECF0F1 "></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#BDC3C7" type="checkbox" name="color" value="#BDC3C7">
+                                            <label for="#BDC3C7" class="dot" style="background-color: #BDC3C7"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#95A5A6" type="checkbox" name="color" value="#95A5A6">
+                                            <label for="#95A5A6" class="dot" style="background-color: #95A5A6"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#7F8C8D" type="checkbox" name="color" value="#7F8C8D">
+                                            <label for="#7F8C8D" class="dot" style="background-color: #7F8C8D"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#34495E " type="checkbox" name="color" value="#34495E ">
+                                            <label for="#34495E " class="dot"
+                                                   style="background-color: #34495E "></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                        <div class="checkbox">
+                                            <input id="#2C3E50" type="checkbox" name="color" value="#2C3E50">
+                                            <label for="#2C3E50" class="dot" style="background-color: #2C3E50"></label>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="userName">Description<span class="text-danger">*</span></label>
+                                    <input type="text" name="desc" parsley-trigger="change" required
+                                           placeholder="Enter description" class="form-control" id="userName"
+                                           value="{{ dic.loginUserName }}">
+                                </div>
+                                <!-- <div class="form-group">
+                                    <label for="userName">Size<span class="text-danger">*</span></label>
+                                    <input type="text" name="size" parsley-trigger="change" required
+                                           placeholder="Enter size" class="form-control" id="userName"
+                                           value="{{ dic.loginUserName }}">
+                                </div>-->
+                                <div class="form-group">
+                                    <label for="userName">Size<span class="text-danger">*</span></label>
+                                    <div class="checkbox">
+                                        <input id="xs" type="checkbox" name="size" value="XS">
+                                        <label for="xs">
+                                            XS
+                                        </label>
+                                        <input id="s" type="checkbox" name="size" value="S">
+                                        <label for="s">
+                                            S
+                                        </label>
+                                        <input id="m" type="checkbox" name="size" value="M">
+                                        <label for="m">
+                                            M
+                                        </label>
+                                        <input id="l" type="checkbox" name="size" value="L">
+                                        <label for="l">
+                                            L
+                                        </label>
+                                        <input id="xl" type="checkbox" name="size" value="XL">
+                                        <label for="xl">
+                                            XL
+                                        </label>
+                                        <input id="2xl" type="checkbox" name="size" value="2XL">
+                                        <label for="2xl">
+                                            2XL
+                                        </label>
+                                        <input id="3xl" type="checkbox" name="size" value="3XL">
+                                        <label for="3xl">
+                                            3XL
+                                        </label>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName">Price<span class="text-danger">*</span></label>
+                                    <input type="number" name="price" parsley-trigger="change" required
+                                           placeholder="Enter price" class="form-control" id="userName"
+                                           value="{{ dic.loginUserName }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName">Quantity<span class="text-danger">*</span></label>
+                                    <input type="number" name="quantity" parsley-trigger="change" required
+                                           placeholder="Enter quantity" class="form-control" id="userName"
+                                           value="{{ dic.loginUserName }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName">Promocode<span class="text-danger">*</span></label>
+                                    <input type="text" name="promocode" parsley-trigger="change"
+                                           placeholder="Enter promocode" class="form-control" id="userName"
+                                           value="{{ dic.loginUserName }}">
+                                </div>
+
+                                <div class="form-group text-right m-b-0">
+                                    <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                        Submit
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                                        Cancel
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div> <!-- end card-box -->
+                    </div>
+                    <!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <footer class="footer text-right">
+            2017 - 2018 © Peer2Peer. - Coderthemes.com
+        </footer>
+
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+{% endblock %}
+

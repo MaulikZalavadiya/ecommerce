@@ -1,0 +1,356 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}cart page{% endblock %}
+
+{% block content %}
+    <!--<script type="text/javascript">
+
+        function deleteOrder(id) {
+            {#            alert("orderId   " + orderId);#}
+            var id = id;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    document.getElementById("deleteId" + id).remove();
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+
+                }
+            };
+            ajax.open("get", "/deleteOrder?orderId=" + id, true);
+
+            ajax.send()
+        }
+    </script>-->
+
+    <script type="text/javascript">
+
+        function deleteOrder(productId) {
+            {#            alert("orderId   " + orderId);#}
+            var productId = productId;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+                    var deleteItemId = jsn['deleteItemId']
+
+                    document.getElementById("deleteId" + deleteItemId).remove();
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+
+
+                }
+            };
+            ajax.open("get", "/deleteOrder?productId=" + productId, true);
+
+            ajax.send()
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function selectAddress(id) {
+            {#            alert("orderId   " + orderId);#}
+            var id = id;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+                    {#                    var beforeDefault = jsn['beforeDefault']#}
+
+                    {#                    document.getElementById("selectId" + beforeDefault).style.backgroundColor = "";#}
+                    {#                    document.getElementById("selectId" + id).style.backgroundColor = "yellow";#}
+
+                    {#                    if (id == beforeDefault) {#}
+                    {#                        document.getElementById("selectId" + id).style.backgroundColor = "yellow";#}
+                    {#                    }#}
+                    {#                    else if (beforeDefault == null) {#}
+                    {#                        document.getElementById("selectId" + id).style.backgroundColor = "yellow";#}
+                    {##}
+                    {#                    }#}
+                    {#                    else {#}
+                    {#                        document.getElementById("selectId" + beforeDefault).style.backgroundColor = "";#}
+                    {#                        document.getElementById("selectId" + id).style.backgroundColor = "yellow";#}
+                    {##}
+                    {#                    }#}
+
+                }
+            };
+            ajax.open("get", "/selectAddress?addressId=" + id, true);
+
+            ajax.send()
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function addCoupon(coupon, productId) {
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+                    var totalOrderAmount = jsn['totalprice']
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+
+                }
+            };
+            ajax.open("get", "/insertCoupon?productId=" + productId + '&coupon=' + coupon, true);
+
+            ajax.send()
+        }
+    </script>
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">Shopping Cart</li>
+                </ol>
+            </div>
+            <p>{% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}</p>
+            <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Item</td>
+                        <td class="description"></td>
+                        <td class="price">Price ($)</td>
+                        <td class="quantity">Quantity</td>
+                        <td class="color">color</td>
+                        <td class="size">size</td>
+                        <td class="total">Total ($)</td>
+                        <td class="total">Coupon</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    {% for key,value in productList.items %}
+                        <tbody id="deleteId{{ key }}">
+                        {% csrf_token %}
+                        <tr>
+                            <td class="cart_product">
+                                {% load custome_tags %}
+                                {% listConverter value.image as images %}
+                                <a href=""><img src="/media/{{ images.0 }}.jpeg" alt=""
+                                                style="width: 100px;height: 100px"></a>
+                            </td>
+                            <td class="cart_description">
+                                <h4><a href="">{{ value.name }}</a></h4>
+                                <p>{{ value.desc }}</p>
+                            </td>
+                            <td class="cart_price">
+                                <p> {{ value.price }}</p>
+                            </td>
+
+
+                            <td class="cart_price">
+                                <p>{{ value.quantity }}</p>
+                            </td>
+
+                            <td class="cart_price">
+                                <p>{{ value.color }}</p>
+                            </td>
+                            <td class="cart_price">
+                                <p>{{ value.size }}</p>
+                            </td>
+
+
+                            <td class="cart_total">
+
+                                <p id="totalPrice">
+                                    {{ value.totalprice }}</p>
+                            </td>
+                            {% if value.couponAvailable == 'yes' %}
+                                {% if 'coupon' in value %}
+                                    <td class="cart_total">
+                                        <p>{{ value.coupon }}</p>
+                                    </td>
+                                {% else %}
+                                    <td class="cart_total">
+                                        <input type="text" name="coupon" value=""
+                                               onchange="addCoupon(this.value,{{ key }})">
+                                    </td>
+                                {% endif %}
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td class="cart_delete">
+                                <a class="cart_quantity_delete" onclick="deleteOrder({{ key }})"><i
+                                        class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </section> <!--/#cart_items-->
+
+    <section id="do_action">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6" style="width: 100%">
+                    <div class="total_area">
+                        <ul>
+                            <li>Total ($)<span id="totalOrderAmount">{{ orderList.totalPrice }}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="step-one">
+                <h2 class="heading">Address</h2>
+            </div>
+
+            <div class="shopper-informations">
+                <div class="row">
+                    {% for i in viewAddress %}
+                        {% if i.action == 'default' %}
+                            <div class="col-sm-3" id="selectId{{ i.id }}" style="background-color: yellow">
+                                <div class="shopper-info">
+                                    <ul class="nav">
+                                        <li>
+                                            <label> Name</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;"> {{ i.fullName }}</label>
+                                        </li>
+                                        <li>
+                                            <label> Mobile No</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;"> {{ i.mobileNo }}</label>
+                                        </li>
+                                        <li>
+                                            <label> Address</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;">{{ i.home }}<br>{{ i.address }}<br>{{ i.landmark }}<br>{{ i.town }}<br>{{ i.state }}<br>{{ i.country }}
+                                        </label>
+                                        </li>
+
+                                    </ul>
+                                    <a class="btn btn-primary" href="/editAddress?addressId={{ i.id }}">Edit</a>
+                                    <a class="btn btn-primary" href="/loadPayment" onclick="selectAddress({{ i.id }})">Select
+                                        & payment</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-sm-3" id="selectId{{ i.id }}">
+                                <div class="shopper-info">
+                                    <ul class="nav">
+                                        <li>
+                                            <label> Name</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;"> {{ i.fullName }}</label>
+                                        </li>
+                                        <li>
+                                            <label> Mobile No</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;"> {{ i.mobileNo }}</label>
+                                        </li>
+                                        <li>
+                                            <label> Address</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;">{{ i.home }}<br>{{ i.address }}<br>{{ i.landmark }}<br>{{ i.town }}<br>{{ i.state }}<br>{{ i.country }}
+                                        </label>
+                                        </li>
+
+                                    </ul>
+                                    <a class="btn btn-primary" href="/editAddress?addressId={{ i.id }}">Edit</a>
+                                    <a class="btn btn-primary" href="/loadPayment" onclick="selectAddress({{ i.id }})">Select
+                                        & payment</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="col-sm-3">
+                        <div class="shopper-info">
+                            <ul class="nav">
+
+
+                            </ul>
+                            <a class="btn btn-primary" href="/loadAddress">New <br>Address</a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </section><!--/#do_action-->
+
+    <br>
+
+
+
+{% endblock %}
+
+
+
+{% block js %}
+
+    <script>
+
+        jQuery(document).ready(function () {
+            // This button will increment the value
+            $('.qtyplus').click(function (e) {
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseInt($('input[id=' + fieldName + ']').val());
+                // If is not undefined
+                if (!isNaN(currentVal)) {
+                    // Increment
+                    $('input[id=' + fieldName + ']').val(currentVal + 1);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[id=' + fieldName + ']').val(0);
+                }
+            });
+            // This button will decrement the value till 0
+            $(".qtyminus").click(function (e) {
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseInt($('input[id=' + fieldName + ']').val());
+                // If it isn't undefined or its greater than 0
+                if (!isNaN(currentVal) && currentVal > 0) {
+                    // Decrement one
+                    $('input[id=' + fieldName + ']').val(currentVal - 1);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[id=' + fieldName + ']').val(0);
+                }
+            });
+        });
+
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}checkout page{% endblock %}
+
+{% block content %}
+
+    <script type="text/javascript">
+
+        function deleteAddress(id) {
+            {#            alert("orderId   " + orderId);#}
+            var id = id;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    document.getElementById("deleteId" + id).remove();
+
+                }
+            };
+            ajax.open("get", "/deleteAddress?addressId=" + id, true);
+
+            ajax.send()
+        }
+    </script>
+    <script type="text/javascript">
+
+        function insertDefault(id) {
+            {#            alert("orderId   " + orderId);#}
+            var id = id;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+                    var beforeDefault = jsn['beforeDefault']
+
+                    if (id == beforeDefault) {
+                        document.getElementById("deleteId" + id).style.backgroundColor = "yellow";
+                    }
+                    else {
+                        document.getElementById("deleteId" + beforeDefault).style.backgroundColor = "";
+                        document.getElementById("deleteId" + id).style.backgroundColor = "yellow";
+
+                    }
+
+
+                }
+            };
+            ajax.open("get", "/insertDefault?addressId=" + id, true);
+
+            ajax.send()
+        }
+    </script>
+
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">My Profile</li>
+                </ol>
+            </div><!--/breadcrums-->
+
+            {% if c_passError %}
+                <p style="color: red;">{{ c_passError }}</p>
+            {% endif %}
+            {% if matchError %}
+                <p style="color: red;">{{ matchError }}</p>
+            {% endif %}
+            {% if sucess %}
+                <p style="color: red;">{{ sucess }}</p>
+            {% endif %}
+
+            <div class="step-one">
+                <h2 class="heading">My Profile</h2>
+            </div>
+            <div class="checkout-options">
+
+                <ul class="nav">
+                    <li>
+                        <label> Name</label>&nbsp;: &nbsp;<label
+                            style="color: orange;"> {{ request.session.login_UserName }}</label>
+                    </li>
+                    <li>
+                        <label> Email</label>&nbsp;: &nbsp;<label
+                            style="color: orange;"> {{ request.session.login_Email }}</label>
+                    </li>
+                    <li>
+                        <label> Mobile No</label>&nbsp;: &nbsp;<label
+                            style="color: orange;"> {{ request.session.login_MobileNO }}</label>
+                    </li>
+
+
+                </ul>
+            </div><!--/checkout-options-->
+
+            <div class="step-one">
+                <h2 class="heading">Address</h2>
+            </div>
+
+            <div class="shopper-informations">
+                <div class="row">
+                    {% for i in viewAddress %}
+                        {% if i.action == "default" %}
+                            <div class="col-sm-3" id="deleteId{{ i.id }}" style="background-color: yellow">
+                                <div class="shopper-info">
+                                    <ul class="nav">
+                                        <li>
+                                            <label> Name</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;"> {{ i.fullName }}</label>
+                                        </li>
+                                        <li>
+                                            <label> Mobile No</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;"> {{ i.mobileNo }}</label>
+                                        </li>
+                                        <li>
+                                            <label> Address</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;">{{ i.home }}<br>{{ i.address }}<br>{{ i.landmark }}<br>{{ i.town }}<br>{{ i.state }}<br>{{ i.country }}
+                                        </label>
+                                        </li>
+
+                                    </ul>
+                                    <a class="btn btn-primary" href="/editAddress?addressId={{ i.id }}">Edit</a>
+                                    <a class="btn btn-primary" onclick="deleteAddress({{ i.id }})">Delete</a>
+                                    <a class="btn btn-primary" onclick="insertDefault({{ i.id }})">Default</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-sm-3" id="deleteId{{ i.id }}">
+                                <div class="shopper-info">
+                                    <ul class="nav">
+                                        <li>
+                                            <label> Name</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;"> {{ i.fullName }}</label>
+                                        </li>
+                                        <li>
+                                            <label> Mobile No</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;"> {{ i.mobileNo }}</label>
+                                        </li>
+                                        <li>
+                                            <label> Address</label>&nbsp;: &nbsp;<label
+                                                style="color: orange;">{{ i.home }}<br>{{ i.address }}<br>{{ i.landmark }}<br>{{ i.town }}<br>{{ i.state }}<br>{{ i.country }}
+                                        </label>
+                                        </li>
+
+                                    </ul>
+                                    <a class="btn btn-primary" href="/editAddress?addressId={{ i.id }}">Edit</a>
+                                    <a class="btn btn-primary" onclick="deleteAddress({{ i.id }})">Delete</a>
+                                    <a class="btn btn-primary" onclick="insertDefault({{ i.id }})">Default</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+
+                    <div class="col-sm-3">
+                        <div class="shopper-info">
+                            <ul class="nav">
+
+
+                            </ul>
+                            <a class="btn btn-primary" href="/loadAddress">New <br>Address</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="step-one">
+                <h2 class="heading">Reset Password</h2>
+            </div>
+
+            <div class="shopper-informations">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="shopper-info">
+                            <form method="post" action="/updatePassword">
+                                {% csrf_token %}
+
+                                <input type="text" placeholder="Current Password" name="currentPassword">
+                                <input type="text" placeholder="New Password" name="newPasssword">
+                                <input type="text" placeholder="Confirm New Password" name="cofirmPassword">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </section> <!--/#cart_items-->
+    <br>
+{% endblock %}

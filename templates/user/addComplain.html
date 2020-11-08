@@ -1,0 +1,42 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}checkout page{% endblock %}
+
+{% block content %}
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">Address</li>
+                </ol>
+            </div><!--/breadcrums-->
+
+
+            <div class="shopper-informations">
+                <center>
+                    <div class="row">
+                        <div class="col-sm-5 clearfix" style="width: 80%; padding-left: 300px;">
+
+                            <div class="bill-to">
+                                <div class="form-one" style="width: 80%">
+                                    <form method="post" action="/insertComplain">
+                                        {% csrf_token %}
+                                        <input type="text" name="subject"  placeholder="subject *" required>
+                                        <textarea type="text" name="description"  placeholder="description *" required></textarea>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </section> <!--/#cart_items-->
+    <br>
+
+{% endblock %}

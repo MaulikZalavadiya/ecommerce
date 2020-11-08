@@ -1,0 +1,339 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+    <meta content="Coderthemes" name="author"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'adminResources/images/favicon.ico' %}">
+    <!-- C3 charts css -->
+    <link href="adminResources/css/c3.min.css" rel="stylesheet" type="text/css"/>
+
+
+    <!-- DataTables -->
+    <link href="{% static 'adminResources/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'adminResources/css/buttons.bootstrap4.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- Responsive datatable examples -->
+    <link href="{% static 'adminResources/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css"/>
+
+    <!-- App css -->
+    <link href="{% static 'adminResources/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'adminResources/css/icons.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'adminResources/css/metismenu.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'adminResources/css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'adminResources/css/flat_design_colors.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'adminResources/css/flat_design_colors_full.css' %}" rel="stylesheet" type="text/css"/>
+
+    <script src="{% static 'adminResources/js/modernizr.min.js' %}"></script>
+    <script>
+        var loadFile = function (event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+
+
+</head>
+
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- Top Bar Start -->
+    <div class="topbar">
+
+        <!-- LOGO -->
+        <div class="topbar-left">
+            <a href="index.html" class="logo">
+                                <span>
+                                    <img src="{% static 'adminResources/images/logo.jpg' %}" alt="" height="60">
+                                </span>
+                <i>
+                    <img src="{% static 'adminResources/images/logo_sm.png' %}" alt="" height="28">
+                </i>
+            </a>
+        </div>
+
+        <nav class="navbar-custom">
+
+            <ul class="list-inline float-right mb-0">
+                <li class="list-inline-item dropdown notification-list">
+                    <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown"
+                       href="#" role="button"
+                       aria-haspopup="false" aria-expanded="false">
+                        <i class="dripicons-bell noti-icon"></i>
+                        <span class="badge badge-pink noti-icon-badge">4</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-lg" aria-labelledby="Preview">
+                        <!-- item-->
+                        <div class="dropdown-item noti-title">
+                            <h5><span class="badge badge-danger float-right">5</span>Notification</h5>
+                        </div>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-success"><i class="icon-bubble"></i></div>
+                            <p class="notify-details">Robert S. Taylor commented on Admin
+                                <small class="text-muted">1 min ago</small>
+                            </p>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-info"><i class="icon-user"></i></div>
+                            <p class="notify-details">New user registered.
+                                <small class="text-muted">1 min ago</small>
+                            </p>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-danger"><i class="icon-like"></i></div>
+                            <p class="notify-details">Carlos Crouch liked <b>Admin</b>
+                                <small class="text-muted">1 min ago</small>
+                            </p>
+                        </a>
+
+                        <!-- All-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item notify-all">
+                            View All
+                        </a>
+
+                    </div>
+                </li>
+
+                <li class="list-inline-item dropdown notification-list">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown"
+                       href="#" role="button"
+                       aria-haspopup="false" aria-expanded="false">
+                        <img src="{% static 'adminResources/images/avatar-1.png' %}" alt="user" class="rounded-circle">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
+                        <!-- item-->
+                        <div class="dropdown-item noti-title">
+                            <h5 class="text-overflow">
+                                <small>Welcome ! John</small>
+                            </h5>
+                        </div>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="mdi mdi-account-circle"></i> <span>Profile</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="mdi mdi-settings"></i> <span>Settings</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="mdi mdi-lock-open"></i> <span>Lock Screen</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="mdi mdi-power"></i> <span>Logout</span>
+                        </a>
+
+                    </div>
+                </li>
+
+            </ul>
+
+            <ul class="list-inline menu-left mb-0">
+                <li class="float-left">
+                    <button class="button-menu-mobile open-left waves-light waves-effect">
+                        <i class="dripicons-menu"></i>
+                    </button>
+                </li>
+                <li class="hide-phone app-search">
+                    <form role="search" class="">
+                        <input type="text" placeholder="Search..." class="form-control">
+                        <a href=""><i class="fa fa-search"></i></a>
+                    </form>
+                </li>
+            </ul>
+
+        </nav>
+
+    </div>
+    <!-- Top Bar End -->
+
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="left side-menu">
+        <div class="slimscroll-menu" id="remove-scroll">
+
+            <!--- Sidemenu -->
+            <div id="sidebar-menu">
+                <!-- Left Menu Start -->
+                <ul class="metismenu" id="side-menu">
+                    <li class="menu-title">Navigation</li>
+                    <li>
+                        <a href="javascript: void(0);">
+                            <i class="fi-air-play"></i><span class="badge badge-success pull-right">2</span> <span> Dashboard </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="fi-target"></i> <span> User Management </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="/admin/viewAdmin">admin</a></li>
+                            <li><a href="/admin/viewUser">user</a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="fi-box"></i><span>Product Management </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="/admin/loadDataset">Add Dataset</a></li>
+                            <li><a href="/admin/loadProduct">Add Product</a></li>
+                            <li><a href="/admin/viewProduct">View Product</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);"><i class="fi-briefcase"></i> <span> Category Management </span>
+                            <span
+                                    class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="/admin/viewCategory">Category</a></li>
+                            <li><a href="/admin/viewSubcategory">Subcategory</a></li>
+                            <li><a href="/admin/viewType">Type</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="fi-briefcase"></i> <span> Coupon Management </span>
+                            <span
+                                    class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="/admin/loadCoupon">add coupon</a></li>
+                            <li><a href="/admin/viewCoupon">view Coupon</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="fi-briefcase"></i> <span> Benner Management </span>
+                            <span
+                                    class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="/admin/loadBenner">Add Benner</a></li>
+                            <li><a href="/admin/viewBenner">view Benner</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/admin/viewOrder"><i class="fi-briefcase"></i> <span> Order Management </span>
+                            <span
+                                    class="menu-arrow"></span></a>
+                    </li>
+                    <li>
+                        <a href="/admin/viewFeedback"><i class="fi-briefcase"></i> <span> Feedback Management </span>
+                            <span
+                                    class="menu-arrow"></span></a>
+                    </li>
+                    <li>
+                        <a href="/admin/viewComplain"><i class="fi-briefcase"></i> <span> complain Management </span>
+                            <span
+                                    class="menu-arrow"></span></a>
+                        <!--<ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="/admin/loadBenner">Add Benner</a></li>
+                            <li><a href="/admin/viewBenner">view Benner</a></li>-->
+                </ul>
+                </li>
+
+
+                </ul>
+
+            </div>
+            <!-- Sidebar -->
+            <div class="clearfix"></div>
+
+        </div>
+        <!-- Sidebar -left -->
+
+    </div>
+    <!-- Left Sidebar End -->
+    {% block content %}
+
+    {% endblock %}
+
+</div>
+<!-- END wrapper -->
+
+
+<!-- jQuery  -->
+<script src="{% static 'adminResources/js/jquery.min.js' %}"></script>
+<script src="{% static 'adminResources/js/popper.min.js' %}"></script><!-- Popper for Bootstrap -->
+<script src="{% static 'adminResources/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'adminResources/js/metisMenu.min.js' %}"></script>
+<script src="{% static 'adminResources/js/waves.js' %}"></script>
+<script src="{% static 'adminResources/js/jquery.slimscroll.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'adminResources/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'adminResources/js/dataTables.bootstrap4.min.js' %}"></script>
+<!-- Buttons examples -->
+<script src="{% static 'adminResources/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'adminResources/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'adminResources/js/jszip.min.js' %}"></script>
+<script src="{% static 'adminResources/js/pdfmake.min.js' %}"></script>
+<script src="{% static 'adminResources/js/vfs_fonts.js' %}"></script>
+<script src="{% static 'adminResources/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'adminResources/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'adminResources/js/buttons.colVis.min.js' %}"></script>
+<!-- Responsive examples -->
+<script src="{% static 'adminResources/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'adminResources/js/responsive.bootstrap4.min.js' %}"></script>
+<!-- Parsley js -->
+<script type="text/javascript" src="{% static 'adminResources/js/parsley.min.js' %}"></script>
+<!-- Counter js  -->
+<script src="{% static 'adminResources/js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'adminResources/js/jquery.counterup.min.js' %}"></script>
+
+<!--C3 Chart-->
+<script type="text/javascript" src="{% static 'adminResources/js/d3.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'adminResources/js/c3.min.js' %}"></script>
+
+<!--Echart Chart-->
+<script src="{% static 'adminResources/js/echarts-all.js' %}"></script>
+
+<!-- Dashboard init -->
+<script src="{% static 'adminResources/js/jquery.dashboard.js' %}"></script>
+
+<!-- App js -->
+<script src="{% static 'adminResources/js/jquery.core.js' %}"></script>
+<script src="{% static 'adminResources/js/jquery.app.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#datatable').DataTable();
+
+        //Buttons examples
+        var table = $('#datatable-buttons').DataTable({
+            lengthChange: false,
+            buttons: ['copy', 'excel', 'pdf', 'colvis']
+        });
+
+        table.buttons().container()
+            .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+    });
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('form').parsley();
+    });
+</script>
+
+
+</body>
+</html>

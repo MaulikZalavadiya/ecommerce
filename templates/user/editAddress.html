@@ -1,0 +1,67 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}checkout page{% endblock %}
+
+{% block content %}
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">Address</li>
+                </ol>
+            </div><!--/breadcrums-->
+
+
+            <div class="shopper-informations">
+                <center>
+                    <div class="row">
+                        <div class="col-sm-5 clearfix" style="width: 80%; padding-left: 300px;">
+
+                            <div class="bill-to">
+                                <div class="form-one" style="width: 80%">
+                                    <form method="post" action="/updateAddress">
+                                        {% csrf_token %}
+                                        {% for i in viewAddress %}
+                                            <input type="text" name="addressId" hidden value="{{ addressId }}">
+                                            <input type="text" name="fullName" id="fn" placeholder="Full Name *"
+                                                   required value="{{ i.fullName }}">
+                                            <input type="tel" name="mobileNo" placeholder="Mobile Number *"
+                                                   pattern="[0-9]{10}" required value="{{ i.mobileNo }}">
+
+                                            <input type="tel" name="alternetMobileNo"
+                                                   placeholder="Alternate Mobile Number(Optional)" pattern="[0-9]{10}"
+                                                   {% if i.alternetMobileNo != None %}value="{{ i.alternetMobileNo }}"{% endif %}>
+                                            <input type="text" name="PINCode" placeholder="PIN Code *" required
+                                                   value="{{ i.PINCode }}">
+                                            <input name="home" id="flat" type="text"
+                                                   placeholder="Flat, House no., Building, Company, Apartment *"
+                                                   required value="{{ i.home }}">
+                                            <input name="address" id="area" type=""
+                                                   placeholder="Area, Colony, Street, Sector, Village *" required
+                                                   value="{{ i.address }}">
+                                            <input name="landmark" id="" type="text" placeholder="Landmark"
+                                                   {% if i.landmark != None %}value="{{ i.landmark }}"{% endif %}>
+                                            <input name="town" id="town" type="text" placeholder="town *" required
+                                                   value="{{ i.state }}">
+                                            <input name="state" id="state" type="text" placeholder="state *" required
+                                                   value="{{ i.country }}">
+                                            <input name="country" id="state" type="text" placeholder="country *"
+                                                   required value="{{ i.country }}">
+                                        {% endfor %}
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </section> <!--/#cart_items-->
+    <br>
+
+{% endblock %}

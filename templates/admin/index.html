@@ -1,0 +1,118 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title float-left">Dashboard</h4>
+
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="/admin/loadDashbord">Peer2Peer</a></li>
+                                <li class="breadcrumb-item"><a href="/admin/loadDashbord">Dashboard</a></li>
+                            </ol>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+
+                <div class="row">
+
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card-box widget-box-two widget-two-custom">
+                            <i class="mdi mdi-currency-usd widget-two-icon"></i>
+                            <div class="wigdet-two-content">
+                                <p class="m-0 text-uppercase font-bold font-secondary text-overflow" title="Statistics">
+                                    Total Revenue</p>
+                                <h3 class="font-600">
+{#                                    <span><i class="mdi mdi-arrow-up"></i></span> #}
+                                    <span
+                                        data-plugin="counterup">{{ totalPrice__sum }}</span></h3>
+                                <p class="m-0">Jan - Apr 2017</p>
+                            </div>
+                        </div>
+                    </div><!-- end col -->
+
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card-box widget-box-two widget-two-custom">
+                            <i class="mdi mdi-account-multiple widget-two-icon"></i>
+                            <div class="wigdet-two-content">
+                                <p class="m-0 text-uppercase font-bold font-secondary text-overflow" title="Statistics">
+                                    Total Unique Visitors</p>
+                                <h2 class="font-600">
+{#                                    <span><i class="mdi mdi-arrow-up"></i></span> #}
+                                    <span
+                                        data-plugin="counterup">{{ users }}</span></h2>
+                                <p class="m-0">Jan - Apr 2017</p>
+                            </div>
+                        </div>
+                    </div><!-- end col -->
+
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card-box widget-box-two widget-two-custom">
+                            <i class="mdi mdi-crown widget-two-icon"></i>
+                            <div class="wigdet-two-content">
+                                <p class="m-0 text-uppercase font-bold font-secondary text-overflow" title="Statistics">
+                                    Number of Orders</p>
+                                <h2 class="font-600">
+{#                                    <span><i class="mdi mdi-arrow-up"></i></span> #}
+                                    <span
+                                        data-plugin="counterup">{{ orders }}</span></h2>
+                                <p class="m-0">Jan - Apr 2017</p>
+                            </div>
+                        </div>
+                    </div><!-- end col -->
+
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card-box widget-box-two widget-two-custom">
+                            <i class="mdi mdi-auto-fix widget-two-icon"></i>
+                            <div class="wigdet-two-content">
+                                <p class="m-0 text-uppercase font-bold font-secondary text-overflow" title="Statistics">
+                                    Products</p>
+                                <h2 class="font-600">
+{#                                    <span><i class="mdi mdi-arrow-up"></i></span> #}
+                                    <span
+                                        data-plugin="counterup">{{ product }}</span></h2>
+                                <p class="m-0">Jan - Apr 2017</p>
+                            </div>
+                        </div>
+                    </div><!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+
+
+                <!-- end row -->
+
+
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <footer class="footer text-right">
+            2017 - 2018 © Peer2Peer. - Coderthemes.com
+        </footer>
+
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+{% endblock %}
+

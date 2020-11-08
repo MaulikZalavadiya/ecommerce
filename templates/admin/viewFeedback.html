@@ -1,0 +1,110 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .dot {
+            height: 25px;
+            width: 25px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    </style>
+
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page" xmlns="http://www.w3.org/1999/html">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title float-left">View feedback</h4>
+
+                            <ol class="breadcrumb float-right">
+                                <a href="/admin/loadProduct">
+                                    <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                        Add Product
+                                    </button>
+                                </a>
+                            </ol>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="card-box">
+                            <p class="text-muted font-14 m-b-20">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        {{ message }}
+                                    {% endfor %}
+                                {% endif %}
+                            </p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card-box table-responsive">
+
+
+                                        <table id="datatable-buttons" class="table table-striped table-bordered"
+                                               cellspacing="0"
+                                               width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th>product</th>
+                                                <th>feedback</th>
+                                                <th>rating</th>
+                                                <th>user</th>
+                                            </tr>
+                                            </thead>
+                                            {% for i in viewFeedbackList %}
+                                                <tr>
+                                                    <td>{{ i.productId.code }}</td>
+                                                    <td>{{ i.feedback }}</td>
+                                                    <td>{{ i.rating }}</td>
+                                                    <td>{{ i.feedbackDate }},{{ i.feedbackTime }}</td>
+                                                </tr>
+                                            {% endfor %}
+
+
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> <!-- end card-box -->
+                    </div>
+                    <!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <footer class="footer text-right">
+            2017 - 2018 © Peer2Peer. - Coderthemes.com
+        </footer>
+
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+{% endblock %}
+

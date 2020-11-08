@@ -1,0 +1,65 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}checkout page{% endblock %}
+
+{% block content %}
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">Address</li>
+                </ol>
+            </div><!--/breadcrums-->
+
+
+            <div class="shopper-informations">
+                <center>
+                    <div class="row">
+                        <div class="col-sm-5 clearfix" style="width: 80%; padding-left: 300px;">
+
+                            <div class="bill-to">
+                                <div class="form-one" style="width: 80%">
+                                    <form method="post" action="/insertFeedback">
+                                        {% csrf_token %}
+                                        <input type="text" hidden name="productId" value="{{ productId }}">
+                                        <input type="text" hidden name="orderId" value="{{ orderId }}">
+                                        <label>Rating</label>
+                                        <fieldset class="rating">
+                                            <input type="radio" id="star5" name="feedbackRating" value="5"/>
+                                            <label class="full" for="star5" title="Awesome-5 stars"></label>
+
+                                            <input type="radio" id="star4" name="feedbackRating" value="4"/>
+                                            <label class="full" for="star4" title="Pretty good-4 stars"></label>
+
+
+                                            <input type="radio" id="star3" name="feedbackRating" value="3"/>
+                                            <label class="full" for="star3" title="Meh-3 stars"></label>
+
+                                            <input type="radio" id="star2" name="feedbackRating" value="2"/>
+                                            <label class="full" for="star2" title="Kinda bad-2 stars"></label>
+
+
+                                            <input type="radio" id="star1" name="feedbackRating" value="1"/>
+                                            <label class="full" for="star1" title="Sucks big time-1 star"></label>
+
+
+                                        </fieldset>
+                                        <textarea type="text" name="description" placeholder="description *"
+                                                  required></textarea>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </section> <!--/#cart_items-->
+    <br>
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title float-left">Edit User</h4>
+
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="#">Peer2Peer</a></li>
+                                <li class="breadcrumb-item"><a href="#">Forms</a></li>
+                                <li class="breadcrumb-item active">Form Validation</li>
+                            </ol>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="card-box">
+                            <h4 class="header-title m-t-0">User Info.</h4>
+                            <p class="text-muted font-14 m-b-20">
+                                {% if msg %}{{ msg }}{% endif %}
+                            </p>
+
+                            <form action="/admin/updateUser" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="loginId" parsley-trigger="change" required
+                                       placeholder="Enter user name" class="form-control" id="userName"
+                                       value="{{ userInfo.id }}" hidden>
+                                <div class="form-group">
+                                    <label for="userName">Name<span class="text-danger">*</span></label>
+                                    <input type="text" name="loginUserName" parsley-trigger="change" required
+                                           placeholder="Enter user name" class="form-control" id="userName"
+                                           value="{{ userInfo.loginUserName }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailAddress">Email<span class="text-danger">*</span></label>
+                                    <input type="email" name="loginEmail" parsley-trigger="change" required
+                                           placeholder="Enter email" class="form-control" id="emailAddress"
+                                           value="{{ userInfo.loginEmail }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobileNumber">Mobile NO<span class="text-danger">*</span></label>
+                                    <input type="text" name="loginMobileNo" parsley-trigger="change" required
+                                           placeholder="Enter mobile number" class="form-control" id="mobileNumber"
+                                           value="{{ userInfo.loginMobileNo }}">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="pass1">Role<span class="text-danger">*</span></label>
+                                    <select name="loginRole" id="cars" class="form-control">
+                                        <option value="{{ userInfo.loginRole }}"
+                                                hidden>{{ userInfo.loginRole }}</option>
+                                        <option value="user">User</option>
+                                        <option value="admin">Admin</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="pass1">Status<span class="text-danger">*</span></label>
+                                    <select name="loginStatus" id="cars" class="form-control">
+                                        <option value="{{ userInfo.loginStatus }}"
+                                                hidden>{{ userInfo.loginStatus }}</option>
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="form-group text-right m-b-0">
+                                    <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                        Submit
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                                        Cancel
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div> <!-- end card-box -->
+                    </div>
+                    <!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <footer class="footer text-right">
+            2017 - 2018 © Peer2Peer. - Coderthemes.com
+        </footer>
+
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+{% endblock %}
+

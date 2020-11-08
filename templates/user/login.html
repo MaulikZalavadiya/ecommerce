@@ -1,0 +1,53 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}login page{% endblock %}
+
+{% block content %}
+
+
+    <section><!--form-->
+        <div class="container">
+            {% if alreadyExist %}<p style="color: red">{{ alreadyExist }}</p>{% endif %}
+            {% if successfulyRegister %}<p style="color: red">{{ successfulyRegister }}</p>{% endif %}
+            {% if notValid %}<p style="color: red">{{ notValid }}</p>{% endif %}
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-1">
+                    <div class="login-form"><!--login form-->
+                        <h2>Login to your account</h2>
+                        <form action="/insertLogin" method="post">
+                            {% csrf_token %}
+                            <input type="email" name="email" placeholder="Email" required/>
+                            <input type="password" name="password" placeholder="Password" required/>
+                            <span>
+								<input type="checkbox" class="checkbox"> 
+								Keep me signed in
+							</span>
+                            <button type="submit" class="btn btn-default">Login</button>
+                        </form>
+                    </div><!--/login form-->
+                </div>
+                <div class="col-sm-1">
+                    <h2 class="or">OR</h2>
+                </div>
+                <div class="col-sm-4">
+                    <div class="signup-form"><!--sign up form-->
+                        <h2>New User Signup!</h2>
+                        <form action="/insertRegister" method="post">
+                            {% csrf_token %}
+                            <input type="text" name="name" placeholder="Name" required/>
+                            <input type="email" name="email" placeholder="Email Address" required/>
+                            <input type="number" name="mobileNumber" placeholder="Mobile Number" required/>
+                            <input type="password" name="password" placeholder="Password" required/>
+                            <button type="submit" class="btn btn-default">Signup</button>
+
+                        </form>
+                    </div><!--/sign up form-->
+                </div>
+            </div>
+        </div>
+    </section><!--/form-->
+    <br><br>
+
+{% endblock %}

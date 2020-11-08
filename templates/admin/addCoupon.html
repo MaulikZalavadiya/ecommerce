@@ -1,0 +1,203 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+    <script type="text/javascript">
+    var opt = {};
+    $("#subcategory > option").each(function () {
+        if(opt[$(this).text()]) {
+            $(this).remove();
+        } else {
+            opt[$(this).text()] = $(this).val();
+        }
+    });
+
+    </script>
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title float-left">Coupon</h4>
+
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="#">Peer2Peer</a></li>
+                                <li class="breadcrumb-item"><a href="#">Forms</a></li>
+                                <li class="breadcrumb-item active">Form Validation</li>
+                            </ol>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="card-box">
+                            <p class="text-muted font-14 m-b-20">
+                                {% if msg %}{{ msg }}{% endif %}
+                            </p>
+                            {% if getCoupon %}
+                                <form action="/admin/updateCoupon" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{ getCoupon.id }}">
+                                    <div class="form-group">
+                                        <label for="userName">code<span class="text-danger">*</span></label>
+                                        <input type="text" name="code" parsley-trigger="change" required
+                                               placeholder="Enter Coupon " class="form-control" id="userName"
+                                               value="{{ getCoupon.code }}">
+                                    </div>
+                                    {% load custome_tags %}
+                                    {% to_str getCoupon.valid_from as valid_from %}
+                                    <div class="form-group">
+                                        <label for="userName">valid From<span class="text-danger">*</span></label>
+                                        <input type="date" name="validfrom" parsley-trigger="change" required
+                                               placeholder="Enter admin name" class="form-control" id="userName"
+                                               value="{{ valid_from }}">
+                                    </div>
+                                    {% to_str getCoupon.valid_to as valid_to %}
+                                    <div class="form-group">
+                                        <label for="userName">valid To<span class="text-danger">*</span></label>
+                                        <input type="date" name="validto" parsley-trigger="change" required
+                                               placeholder="Enter admin name" class="form-control" id="userName"
+                                               value="{{ valid_to }}">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="userName">discount<span class="text-danger">*</span></label>
+                                        <input type="number" name="discount" parsley-trigger="change" required
+                                               placeholder="Enter range" class="form-control" id="userName"
+                                               style="width: 50%" value="{{ getCoupon.discount }}">
+                                        <select name="perameter" class="form-control" style="width: 50%;">
+                                            <option value="{{ getCoupon.perameter }}"
+                                                    hidden>{{ getCoupon.perameter }}</option>
+                                            <option value="%">%</option>
+                                            <option value="Rs">₹</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group text-right m-b-0">
+                                        <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                                            Cancel
+                                        </button>
+                                    </div>
+
+                                </form>
+                            {% else %}
+                                <form action="/admin/insertCoupon" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="userName">code<span class="text-danger">*</span></label>
+                                        <input type="text" name="code" parsley-trigger="change" required
+                                               placeholder="Enter Coupon " class="form-control" id="userName"
+                                        >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="userName">valid From<span class="text-danger">*</span></label>
+                                        <input type="Date" name="validfrom" parsley-trigger="change" required
+                                               placeholder="Enter admin name" class="form-control" id="userName"
+                                        >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="userName">valid To<span class="text-danger">*</span></label>
+                                        <input type="Date" name="validto" parsley-trigger="change" required
+                                               placeholder="Enter admin name" class="form-control" id="userName"
+                                        >
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="userName">discount<span class="text-danger">*</span></label>
+                                        <input type="number" name="discount" parsley-trigger="change" required
+                                               placeholder="Enter range" class="form-control" id="userName"
+                                               style="width: 50%">
+                                        <select name="perameter" class="form-control" style="width: 50%;">
+                                            <option value="" hidden>select perameter</option>
+                                            <option value="%">%</option>
+                                            <option value="Rs">₹</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="userName">category<span class="text-danger">*</span></label>
+                                        <select name="category" class="form-control" style="width: 30%;" id="category">
+                                            <option value="" hidden>select perameter</option>
+                                            {% for i in categoryList %}
+                                                <option value="{{ i.category }}">{{ i.category }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="userName">subcategory<span class="text-danger">*</span></label>
+                                        <select name="subcategory" class="form-control" style="width: 30%;"
+                                                id="subcategory">
+                                            <option value="" hidden>select perameter</option>
+                                            {% for j in subcategory %}
+                                                <option value="{{ j.subcategory }}">{{ j.subcategory }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="userName">type<span class="text-danger">*</span></label>
+                                        <select name="type" class="form-control" style="width: 30%;" id="type">
+                                            <option value="" hidden>select perameter</option>
+                                            {% for k in type %}
+                                                <option value="{{ k.type }}">{{ k.type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group text-right m-b-0">
+                                        <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                                            Cancel
+                                        </button>
+                                    </div>
+
+                                </form>
+                            {% endif %}
+
+
+                        </div> <!-- end card-box -->
+                    </div>
+                    <!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <footer class="footer text-right">
+            2017 - 2018 © Peer2Peer. - Coderthemes.com
+        </footer>
+
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+{% endblock %}
+

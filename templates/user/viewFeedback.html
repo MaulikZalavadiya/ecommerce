@@ -1,0 +1,192 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}cart page{% endblock %}
+
+{% block content %}
+    <!-- <script>
+         function totalAmount() {
+             var x = document.getElementById("quantity").value;
+             var price = document.getElementById("price").textContent;
+             var p = parseInt(price)
+             var total = x * p;
+             document.getElementById("totalPrice").innerHTML = total;
+         }
+     </script>-->
+
+    <!--<script type="text/javascript">
+
+        function totalAmount(orderId) {
+            {#            alert("orderId   " + orderId);#}
+            var quantity = document.getElementById("quantity" + orderId).value;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    var totalAmount = jsn['totalAmount']
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    {#                    alert("ajax total prise   "+totalOrderAmount)#}
+                    document.getElementById("totalPrice" + orderId).textContent = totalAmount
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+                }
+            };
+            ajax.open("get", "/totalAmount?orderId=" + orderId + "&quantity=" + quantity, true);
+
+            ajax.send()
+        }
+
+    </script>-->
+
+    <!--<script type="text/javascript">
+
+        function deleteOrder(id) {
+            {#            alert("orderId   " + orderId);#}
+            var id = id;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    document.getElementById("deleteId" + id).remove();
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+
+
+                }
+            };
+            ajax.open("get", "/deleteOrder?orderId=" + id, true);
+
+            ajax.send()
+        }
+    </script>-->
+
+    <script type="text/javascript">
+
+        function deleteOrder(orderId, productId) {
+            alert("orderId   " + orderId);
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+                    var msg = jsn['msg']
+
+                    document.getElementById("deleteId" + productId).remove();
+                    document.getElementById("msg").textContent = msg
+
+
+                }
+            };
+            ajax.open("get", "/cancleOrder?productId=" + productId + "&orderId=" + orderId, true);
+
+            ajax.send()
+        }
+    </script>
+
+
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">view Feedback</li>
+                </ol>
+            </div>
+            <p id="msg">{% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}</p>
+            {% if getFeedbackList %}
+                <div class="table-responsive cart_info">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr class="cart_menu">
+                            <td class="image">product</td>
+                            <td class="description">feedback</td>
+                            <td class="description">rating</td>
+                            <td class="quantity">Date time</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in getFeedbackList %}
+                            <tr>
+                                <td class="image">{{ i.productId.name }}</td>
+                                <td class="description">{{ i.feedback }}</td>
+                                <td class="quantity">{{ i.rating }}</td>
+                                <td class="quantity">{{ i.feedbackDate }},{{ i.feedbackTime }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </section> <!--/#cart_items-->
+
+{% endblock %}
+
+
+
+{% block js %}
+
+    <script>
+
+        jQuery(document).ready(function () {
+            // This button will increment the value
+            $('.qtyplus').click(function (e) {
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseInt($('input[id=' + fieldName + ']').val());
+                // If is not undefined
+                if (!isNaN(currentVal)) {
+                    // Increment
+                    $('input[id=' + fieldName + ']').val(currentVal + 1);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[id=' + fieldName + ']').val(0);
+                }
+            });
+            // This button will decrement the value till 0
+            $(".qtyminus").click(function (e) {
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseInt($('input[id=' + fieldName + ']').val());
+                // If it isn't undefined or its greater than 0
+                if (!isNaN(currentVal) && currentVal > 0) {
+                    // Decrement one
+                    $('input[id=' + fieldName + ']').val(currentVal - 1);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[id=' + fieldName + ']').val(0);
+                }
+            });
+        });
+
+
+    </script>
+
+{% endblock %}

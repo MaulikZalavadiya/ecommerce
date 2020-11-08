@@ -1,0 +1,276 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}cart page{% endblock %}
+
+{% block content %}
+    <!-- <script>
+         function totalAmount() {
+             var x = document.getElementById("quantity").value;
+             var price = document.getElementById("price").textContent;
+             var p = parseInt(price)
+             var total = x * p;
+             document.getElementById("totalPrice").innerHTML = total;
+         }
+     </script>-->
+
+    <!--<script type="text/javascript">
+
+        function totalAmount(orderId) {
+            {#            alert("orderId   " + orderId);#}
+            var quantity = document.getElementById("quantity" + orderId).value;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    var totalAmount = jsn['totalAmount']
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    {#                    alert("ajax total prise   "+totalOrderAmount)#}
+                    document.getElementById("totalPrice" + orderId).textContent = totalAmount
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+                }
+            };
+            ajax.open("get", "/totalAmount?orderId=" + orderId + "&quantity=" + quantity, true);
+
+            ajax.send()
+        }
+
+    </script>-->
+
+    <!--<script type="text/javascript">
+
+        function deleteOrder(id) {
+            {#            alert("orderId   " + orderId);#}
+            var id = id;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    document.getElementById("deleteId" + id).remove();
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+
+
+                }
+            };
+            ajax.open("get", "/deleteOrder?orderId=" + id, true);
+
+            ajax.send()
+        }
+    </script>-->
+
+    <script type="text/javascript">
+
+        function deleteOrder(orderId, productId) {
+            alert("orderId   " + orderId);
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+                    var msg = jsn['msg']
+
+                    document.getElementById("deleteId" + productId).remove();
+                    document.getElementById("msg").textContent = msg
+
+
+                }
+            };
+            ajax.open("get", "/cancleOrder?productId=" + productId + "&orderId=" + orderId, true);
+
+            ajax.send()
+        }
+    </script>
+
+
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">Shopping Cart</li>
+                </ol>
+            </div>
+            <p id="msg">{% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}</p>
+            {% if orderList %}
+                <div class="table-responsive cart_info">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr class="cart_menu">
+                            <td class="image">Item</td>
+                            <td class="description">Image</td>
+                            <td class="price">Price ($)</td>
+                            <td class="quantity">Quantity</td>
+                            <td class="total">Total ($)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        {% for i in orderList %}
+                            {% for key,value in i.items %}
+                                <tbody id="deleteId{{ key }}">
+                                {% csrf_token %}
+                                <tr>
+                                    <td class="cart_product">
+                                        {% load custome_tags %}
+                                        {% listConverter value.image as images %}
+                                        <a href=""><img src="/media/{{ images.0 }}.jpeg" alt=""
+                                                        style="width: 100px;height: 100px"></a>
+                                    </td>
+                                    <td class="cart_description">
+                                        <h4><a href="">{{ value.name }}</a></h4>
+                                        <p>{{ value.desc }}</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p id="price"> {{ value.price }}</p>
+                                    </td>
+
+
+                                    <td>
+                                        <div class="cart-quantity">
+                                            <p id="price"> {{ value.quantity }}</p>
+
+
+                                        </div>
+                                    </td>
+
+
+                                    <td class="cart_total">
+
+                                        <p id="totalPrice{{ key }}">
+                                            {{ value.totalprice }}</p>
+                                    </td>
+                                    {% if value.orderstatus == 'ordered' %}
+                                        <td class="cart_delete">
+                                            <p>ordered</p><a class="cart_quantity_delete"
+                                                             onclick="deleteOrder({{ value.orderId }},{{ key }})"><i
+                                                class="fa fa-times"></i></a>
+                                        </td>
+                                    {% elif value.orderstatus == 'packed' %}
+                                        <td class="cart_delete">
+                                            <p>packed</p><a class="cart_quantity_delete"
+                                                            onclick="deleteOrder({{ value.orderId }},{{ key }})"><i
+                                                class="fa fa-times"></i></a>
+                                        </td>
+                                    {% elif value.orderstatus == 'dispatched' %}
+                                        <td class="cart_delete">
+                                            <p>dispatched</p>
+                                        </td>
+                                    {% elif value.orderstatus == 'delivered' %}
+                                        <td class="cart_delete">
+                                            <p>delivered</p>
+                                            <a href="/admin/orderStatus/return?orderId={{ value.orderId }}&productId={{ key }}"
+                                               class="cart_quantity_delete"><input type="button" value="return"></a>
+                                        </td>
+                                    {% elif value.orderstatus == 'return' and value.paymentstatus == 'success' %}
+                                        <td class="cart_delete">
+                                            <p>return</p>
+                                        </td>
+                                    {% elif value.orderstatus == 'return' and value.paymentstatus == 'refund' %}
+                                        <td class="cart_delete">
+                                            <p>refund</p>
+                                        </td>
+                                    {% endif %}
+                                    <td>
+                                        {% if value.orderstatus == 'delivered' or value.orderstatus == 'return' %}
+
+                                            <a href="/getpdfPage?orderId={{ value.orderId }}" target="_blank"><p>Invoice
+                                                download</p></a>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if value.orderstatus == 'delivered' or value.orderstatus == 'return' %}
+                                            {% if 'feedback' not in value %}
+
+                                                <a href="/loadfeedback?productId={{ key }}&orderId={{ value.orderId }}"
+                                                   ><p>Feedback</p></a>
+
+                                            {% endif %}
+                                        {% endif %}
+
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <center><p style="color: red;">no orders</p></center>
+            {% endif %}
+        </div>
+    </section> <!--/#cart_items-->
+
+{% endblock %}
+
+
+
+{% block js %}
+
+    <script>
+
+        jQuery(document).ready(function () {
+            // This button will increment the value
+            $('.qtyplus').click(function (e) {
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseInt($('input[id=' + fieldName + ']').val());
+                // If is not undefined
+                if (!isNaN(currentVal)) {
+                    // Increment
+                    $('input[id=' + fieldName + ']').val(currentVal + 1);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[id=' + fieldName + ']').val(0);
+                }
+            });
+            // This button will decrement the value till 0
+            $(".qtyminus").click(function (e) {
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseInt($('input[id=' + fieldName + ']').val());
+                // If it isn't undefined or its greater than 0
+                if (!isNaN(currentVal) && currentVal > 0) {
+                    // Decrement one
+                    $('input[id=' + fieldName + ']').val(currentVal - 1);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[id=' + fieldName + ']').val(0);
+                }
+            });
+        });
+
+
+    </script>
+
+{% endblock %}

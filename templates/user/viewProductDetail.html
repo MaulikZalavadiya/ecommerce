@@ -1,0 +1,139 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}cart page{% endblock %}
+
+{% block content %}
+
+    <style>
+        .dot {
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function deleteWishlist(id) {
+            {#            alert("orderId   " + orderId);#}
+            var id = id;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    document.getElementById("deleteId" + id).remove();
+
+                }
+            };
+            ajax.open("get", "/deleteWishlist?id=" + id, true);
+
+            ajax.send()
+        }
+    </script>
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">Product Detail</li>
+                </ol>
+            </div>
+            <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Item</td>
+                        <td class="price">Price</td>
+                    </tr>
+                    </thead>
+                    <tbody id="deleteId{{ i.id }}">
+                    <tr>
+                        <td>
+                            {% load custome_tags %}
+                            {% listConverter getProduct.image as images %}
+                            {% for i in images %}
+                                <img src="/media/{{ i }}.jpeg" alt=""
+                                     style="width: 150px; height: 150px;">
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            {{ getProduct.price }}
+                        </td>
+                    </tr>
+
+                    </tbody>
+                    <tr class="cart_menu">
+                        <td class="image" colspan="2">Detail</td>
+                    </tr>
+                    </thead>
+                    <tbody id="deleteId{{ i.id }}">
+                    <tr>
+                        <td>
+                            code :{{ getProduct.code }}<br>
+                            name :{{ getProduct.name }}<br>
+                            category :{{ getProduct.category }}<br>
+                            sub category :{{ getProduct.subcategory }}<br>
+                            type :{{ getProduct.type }}<br>
+                            desc :{{ getProduct.desc }}<br>
+                            promocode :{{ getProduct.coupon }}
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                    </tbody>
+                    <tr class="cart_menu">
+                        <td class="image">chose color and size</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody id="deleteId{{ i.id }}">
+                    <form method="post" action="/insertOrder">
+                        {% csrf_token %}
+                        <tr>
+
+                            <td>
+                            <input name="id" value={{ getProduct.id }} hidden>
+                                {% load custome_tags %}
+                                {% listConverter getProduct.color as colors %}
+                                {% for i in colors %}
+                                    <input id={{ i }} type="radio" name="color" value={{ i }}>
+                                    <label for={{ i }} class="dot" style="background-color: {{ i }}"></label>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% load custome_tags %}
+                                {% sizequantity getProduct.size getProduct.quantity as sizequantity %}
+                                {% for key,value in sizequantity.items %}
+                                    {% if value != "0" %}
+                                        <input id={{ key }} type="radio" name="size" value={{ key }}>
+                                        <label for={{ key }}>{{ key }}</label>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <button type="submit"> Add to cart</button>
+                            </td>
+                        </tr>
+                    </form>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section> <!--/#cart_items-->
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title float-left">User Management</h4>
+
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="#">Peer2Peer</a></li>
+                                <li class="breadcrumb-item"><a href="#">Tables</a></li>
+                                <li class="breadcrumb-item active">Datatable</li>
+                            </ol>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box table-responsive">
+                            <h4 class="m-t-0 header-title"><b>User Management</b></h4>
+
+
+                            <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0"
+                                   width="100%">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Mobile NO.</th>
+                                    <th>Created At</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody>
+                                {% for i in userList %}
+                                    <tr>
+                                        <td>{{ i.id }}</td>
+                                        <td>{{ i.loginUserName }}</td>
+                                        <td>{{ i.loginEmail }}</td>
+                                        <td>{{ i.loginMobileNo }}</td>
+                                        <td>{{ i.loginCreatedAt }}</td>
+                                        {% if i.loginStatus == 'active' %}
+                                            <td>
+                                                <a href="/changeStatus/login?loginId={{ i.id }}&loginStatus={{ i.loginStatus }}"><input
+                                                        type="button" value="Active"
+                                                        style="background-color: greenyellow;"></a>
+                                            </td>
+                                        {% elif i.loginStatus == 'inactive' %}
+                                            <td>
+                                                <a href="/changeStatus/login?loginId={{ i.id }}&loginStatus={{ i.loginStatus }}"><input
+                                                        type="button" value="Inactive"
+                                                        style="background-color: orangered;"></a>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}cart page{% endblock %}
+
+{% block content %}
+    <script type="text/javascript">
+
+        function deleteWishlist(id) {
+            {#            alert("orderId   " + orderId);#}
+            var id = id;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    document.getElementById("deleteId" + id).remove();
+
+                }
+            };
+            ajax.open("get", "/deleteWishlist?id=" + id, true);
+
+            ajax.send()
+        }
+    </script>
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">Wishlist</li>
+                </ol>
+            </div>
+            {% if wishList %}
+                <div class="table-responsive cart_info">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr class="cart_menu">
+                            <td class="image">Item</td>
+                            <td class="description"></td>
+                            <td class="price">Price</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        {% for i in wishList %}
+                            <tbody id="deleteId{{ i.id }}">
+                            {% csrf_token %}
+                            <tr>
+                                <td class="cart_product">
+                                    {% load custome_tags %}
+                                    {% listConverter i.wishProductId.image as images %}
+                                    <a href=""><img src="/media/{{ images.0 }}.jpeg" alt=""
+                                                    style="width: 150px; height: 150px;"></a>
+                                </td>
+                                <td class="cart_description">
+                                    <h4><a href="">{{ i.wishProductId.product_name }}</a></h4>
+                                    <p>{{ i.wishProductId.desc }}</p>
+                                </td>
+                                <td class="cart_price">
+                                    <p>$ {{ i.wishProductId.price }}</p>
+                                </td>
+                                <td class="cart_delete">
+                                    <a class="cart_quantity_delete" onclick="deleteWishlist({{ i.id }})"><i
+                                            class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <p style="color: red;text-align: center">No item add.</p>
+            {% endif %}
+        </div>
+    </section> <!--/#cart_items-->
+
+{% endblock %}

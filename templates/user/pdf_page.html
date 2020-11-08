@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        th, td {
+            padding: 3px;
+        }
+
+        th {
+            background-color: black;
+            color: white;
+        }
+
+        @page {
+            size: a4 portrait;
+            @frame header_frame {
+            -pdf-frame-content: header_content;
+            left: 60pt;
+            width: 512pt;
+            top: 60pt;
+            height: 50pt
+        }
+        @frame footer_frame {
+        -pdf-frame-content:footer_content;
+        left:60pt;
+        width:512pt;
+        top:772pt;
+        height:30pt
+        }
+        @frame content_frame {
+        left:50pt;
+        width:512pt;
+        top:90pt;
+        height:620pt;
+        }
+
+        }
+    </style>
+
+</head>
+<body>
+<div id="header_content">
+    <h1 style="color: blue;text-align: center">E-shopper</h1>
+
+</div>
+<p>Invoice date :{{ today }}</p>
+<table class="table" border="1">
+    <tr>
+        <th>Order Id</th>
+        <th>Order Date</th>
+        <th>Email</th>
+
+    </tr>
+    <tr>
+        <td>{{ orderList.id }}</td>
+        <td>{{ orderList.orderDate }}</td>
+        <td>{{ orderList.userId.loginEmail }}</td>
+
+    </tr>
+</table>
+<label>Address</label>
+<p>{{ orderList.address.fullName }},{{ orderList.address.home }},{{ orderList.address.address }},{{ orderList.address.landmark }},{{ orderList.address.town }},{{ orderList.address.state }},{{ orderList.address.country }}</p>
+
+<label>mobile no</label>
+<p>{{ orderList.address.mobileNo }}</p>
+
+
+<label>Product</label>
+<table class="table" border="1">
+    <tr>
+        <th>Name</th>
+        <th>price</th>
+        <th>Quantity</th>
+        <th>total price</th>
+        <th>status</th>
+        <th>paymentstatus</th>
+
+    </tr>
+    {% load custome_tags %}
+    {% to_dict orderList.product as product %}
+    {% for key,value in product.items %}
+        <tr>
+
+            <td>{{ value.name }}</td>
+            <td>{{ value.price }}</td>
+            <td>{{ value.quantity }}</td>
+            <td>{{ value.totalprice }}</td>
+            <td>{{ value.orderstatus }}</td>
+            <td>{{ value.paymentstatus }}:{{ value.refundAmount }}</td>
+
+
+        </tr>
+    {% endfor %}
+</table>
+
+<label>total Order Price</label>
+<p>{{ orderList.totalPrice }}</p>
+
+<div id="footer_content">
+    This is Footer Print on Every Page of Pdf Page No.
+    <pdf:pagenumber> / Total Page :
+        <pdf:pagecount>
+</div>
+</body>
+</html>

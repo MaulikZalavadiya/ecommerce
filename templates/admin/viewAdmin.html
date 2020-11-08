@@ -1,0 +1,109 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title float-left">User Management</h4>
+
+                            <div class="form-group text-right m-b-0">
+                                <a href="/admin/loadAdmin">
+                                    <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                        Add Admin
+                                    </button>
+                                </a>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box table-responsive">
+                            <h4 class="m-t-0 header-title"><b>User Management</b></h4>
+
+
+                            <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0"
+                                   width="100%">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Mobile NO.</th>
+                                    <th>Password</th>
+                                    <th>Created At</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody>
+                                {% for i in adminList %}
+                                    <tr>
+                                        <td>{{ i.id }}</td>
+                                        <td>{{ i.loginUserName }}</td>
+                                        <td>{{ i.loginEmail }}</td>
+                                        <td>{{ i.loginMobileNo }}</td>
+                                        <td>{{ i.loginPassword }}</td>
+                                        <td>{{ i.loginCreatedAt }}</td>
+                                        <td>{{ i.loginRole }}</td>
+                                        {% if i.loginStatus == 'active' %}
+                                            <td>
+                                                <a href="/changeStatus/login?loginId={{ i.id }}&loginStatus={{ i.loginStatus }}"><input
+                                                        type="button" value="Active"
+                                                        style="background-color: greenyellow;"></a>
+                                            </td>
+                                        {% elif i.loginStatus == 'inactive' %}
+                                            <td>
+                                                <a href="/changeStatus/login?loginId={{ i.id }}&loginStatus={{ i.loginStatus }}"><input
+                                                        type="button" value="Inactive"
+                                                        style="background-color: orangered;"></a>
+                                            </td>
+                                        {% endif %}
+                                        <td><a href="/admin/editAdmin?loginId={{ i.id }}"><input type="button"
+                                                                                                 value="Edit"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+                                                href="/admin/deleteAdmin?id={{ i.id }}"><input type="button"
+                                                                                               value="Delete"></a></td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+
+{% endblock %}

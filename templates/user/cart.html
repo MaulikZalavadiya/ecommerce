@@ -1,0 +1,430 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block title %}cart page{% endblock %}
+
+{% block content %}
+    <!-- <script>
+         function totalAmount() {
+             var x = document.getElementById("quantity").value;
+             var price = document.getElementById("price").textContent;
+             var p = parseInt(price)
+             var total = x * p;
+             document.getElementById("totalPrice").innerHTML = total;
+         }
+     </script>--><!-- quantity increament-->
+
+    <!--<script type="text/javascript">
+
+        function totalAmount(orderId) {
+            {#            alert("orderId   " + orderId);#}
+            var quantity = document.getElementById("quantity" + orderId).value;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    var totalAmount = jsn['totalAmount']
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    {#                    alert("ajax total prise   "+totalOrderAmount)#}
+                    document.getElementById("totalPrice" + orderId).textContent = totalAmount
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+                }
+            };
+            ajax.open("get", "/totalAmount?orderId=" + orderId + "&quantity=" + quantity, true);
+
+            ajax.send()
+        }
+
+    </script>--><!-- product total amount Ajax -->
+
+    <!--<script type="text/javascript">
+
+        function deleteOrder(id,value) {
+            {#            alert("orderId   " + orderId);#}
+            var id = id;
+            var productId = value;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    document.getElementById("deleteId" + id).remove();
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+
+
+                }
+            };
+            ajax.open("get", "/deleteOrder?orderId=" + id, true);
+
+            ajax.send()
+        }
+    </script>--><!-- delete order Ajax-->
+
+    <script type="text/javascript">
+
+        function totalAmount(productId) {
+            {#                        alert("prodictId   " + productId);#}
+            var quantity = document.getElementById("quantity" + productId).value;
+            {#                        alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+                    var totalAmount = jsn['totalAmount']
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    {#                    alert("ajax total prise   "+totalOrderAmount)#}
+                    document.getElementById("totalPrice" + productId).textContent = totalAmount
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+                }
+            };
+            ajax.open("get", "/totalAmount?productId=" + productId + "&quantity=" + quantity, true);
+
+            ajax.send()
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        function deleteOrder(productId) {
+            {#            alert("orderId   " + orderId);#}
+            var productId = productId;
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+                    var deleteItemId = jsn['deleteItemId']
+
+                    document.getElementById("deleteId" + deleteItemId).remove();
+                    var totalOrderAmount = jsn['totalOrderAmount']
+                    document.getElementById("totalOrderAmount").textContent = totalOrderAmount
+
+
+                }
+            };
+            ajax.open("get", "/deleteOrder?productId=" + productId, true);
+
+            ajax.send()
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function showsize(productId) {
+            {#            alert(productId);#}
+            {#            alert("quantity   " + quantity);#}
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+
+                    var select = document.getElementById('size' + productId);
+                    for (x in jsn['size']) {
+
+                        var option = document.createElement("option");
+                        option.text = x;
+                        option.value = x;
+                        select.add(option)
+                    }
+
+                    var optionValues = [];
+                    $('#size' + productId + ' option').each(function () {
+                        if ($.inArray(this.value, optionValues) > -1) {
+                            $(this).remove()
+                        } else {
+                            optionValues.push(this.value);
+                        }
+                    });
+
+
+                }
+            };
+            ajax.open("get", "/showsize?productId=" + productId, true);
+
+            ajax.send()
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function showcolor(productId) {
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+
+                    var select = document.getElementById('color' + productId);
+                    for (x in jsn['color']) {
+
+                        var option = document.createElement("option");
+                        option.text = x;
+                        option.value = x;
+                        select.add(option)
+                    }
+
+                    var optionValues = [];
+                    $('#color' + productId + ' option').each(function () {
+                        if ($.inArray(this.value, optionValues) > -1) {
+                            $(this).remove()
+                        } else {
+                            optionValues.push(this.value);
+                        }
+                    });
+
+
+                }
+            };
+            ajax.open("get", "/showcolor?productId=" + productId, true);
+
+            ajax.send()
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function changecolor(color, productId) {
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+
+                }
+            };
+            ajax.open("get", "/changecolor?productId=" + productId + "&color=" + color, true);
+
+            ajax.send()
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function changesize(size, productId) {
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+
+                if (ajax.readyState == 4) {
+
+                    var jsn = JSON.parse(ajax.responseText);
+
+
+                }
+            };
+            ajax.open("get", "/changesize?productId=" + productId + "&size=" + size, true);
+
+            ajax.send()
+        }
+    </script>
+
+
+
+
+
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop">Home</a></li>
+                    <li class="active">Shopping Cart</li>
+                </ol>
+            </div>
+            <p style="color: red"> {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}</p>
+            {% if orderListDict %}
+                <div class="table-responsive cart_info">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr class="cart_menu">
+                            <td class="image">Item</td>
+                            <td class="description"></td>
+                            <td class="price">Price ($)</td>
+                            <td class="quantity">Quantity</td>
+                            <td class="color">color</td>
+                            <td class="size">Size</td>
+                            <td class="total">Total ($)</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        {% for key,value in orderListDict.items %}
+                            <tbody id="deleteId{{ key }}">
+                            {% csrf_token %}
+                            <tr>
+                                <td class="cart_product">
+                                    {% load custome_tags %}
+                                    {% listConverter value.image as images %}
+                                    <a href=""><img src="/media/{{ images.0 }}.jpeg" alt=""
+                                                    style="width: 100px;height: 100px"></a>
+                                </td>
+                                <td class="cart_description">
+                                    <h4><a href="">{{ value.name }}</a></h4>
+                                    <p>{{ value.desc }}</p>
+                                </td>
+                                <td class="cart_price">
+                                    <p id="price"> {{ value.price }}</p>
+                                </td>
+
+
+                                <td>
+                                    <div class="cart-quantity">
+
+                                        <input type="number" name="Quantity" id="quantity{{ key }}"
+                                               value="{{ value.quantity }}"
+                                               onchange="totalAmount({{ key }})">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    {% if 'color' in value %}
+                                        <select id='color{{ key }}' name="color" onclick="showcolor({{ key }})"
+                                                onchange="changecolor(this.value,{{ key }})">
+                                            <option value={{ value.color }}>{{ value.color }}</option>
+                                        </select>
+                                    {% else %}
+                                        <select id='color{{ key }}' name="color" onclick="showcolor({{ key }})"
+                                                onchange="changecolor(this.value,{{ key }})">
+                                            <option value="" hidden>Select color</option>
+                                        </select>
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+                                    {% if 'size' in value %}
+                                        <select id='size{{ key }}' name="size" onclick="showsize({{ key }})"
+                                                onchange="changesize(this.value,{{ key }})">
+                                            <option value={{ value.size }}>{{ value.size }}</option>
+                                        </select>
+                                    {% else %}
+                                        <select id='size{{ key }}' name="size" onclick="showsize({{ key }})"
+                                                onchange="changesize(this.value,{{ key }})">
+                                            <option value="" hidden>Select Size</option>
+                                        </select>
+                                    {% endif %}
+                                </td>
+
+
+                                <td class="cart_total">
+
+                                    <p id="totalPrice{{ key }}">
+                                        {{ value.totalprice }}</p>
+                                </td>
+                                <td class="cart_delete">
+                                    <a class="cart_quantity_delete" onclick="deleteOrder({{ key }})"><i
+                                            class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </section> <!--/#cart_items-->
+    {% if orderListDict %}
+        <section id="do_action">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6" style="width: 100%">
+                        <div class="total_area">
+                            <ul>
+                                <li>Total ($) <span id="totalOrderAmount">{{ orderList.totalPrice }}</span></li>
+                            </ul>
+                            {#                        <a class="btn btn-default update" href="">Update</a>#}
+                            <center><a class="btn btn-default check_out" href="/checkout">Check Out</a></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!--/#do_action-->
+    {% endif %}
+{% endblock %}
+
+
+
+{% block js %}
+
+    <script>
+
+        jQuery(document).ready(function () {
+            // This button will increment the value
+            $('.qtyplus').click(function (e) {
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseInt($('input[id=' + fieldName + ']').val());
+                // If is not undefined
+                if (!isNaN(currentVal)) {
+                    // Increment
+                    $('input[id=' + fieldName + ']').val(currentVal + 1);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[id=' + fieldName + ']').val(0);
+                }
+            });
+            // This button will decrement the value till 0
+            $(".qtyminus").click(function (e) {
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseInt($('input[id=' + fieldName + ']').val());
+                // If it isn't undefined or its greater than 0
+                if (!isNaN(currentVal) && currentVal > 0) {
+                    // Decrement one
+                    $('input[id=' + fieldName + ']').val(currentVal - 1);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[id=' + fieldName + ']').val(0);
+                }
+            });
+        });
+
+
+    </script>
+
+{% endblock %}
